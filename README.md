@@ -18,7 +18,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # 3) (Opcional) Configurar modelo de generación
-#    Opción A - Local con Ollama (recomendado, gratis):
+#    Opción A - Local con Ollama:
 #      - Instalar https://ollama.com/download
 #      - Descargar modelo:  ollama pull llama3.1:8b
 #      - Exportar variable:  set OLLAMA_MODEL=llama3.1:8b   (Windows)
@@ -26,9 +26,9 @@ pip install -r requirements.txt
 #
 #    Opción B - OpenAI:
 #      - Copiar .env.example a .env y setear OPENAI_API_KEY=<tu_api_key>
+#    Opción C . Claude-Code
+#    CLAUDE_CODE_KEY= 
 
-# 4) Colocar tu CV en /data como PDF/TXT/MD (ej: cv_alumno.pdf).
-#    También podés subirlo desde la UI.
 python ingest.py  # crea/actualiza el índice
 
 # 5) Lanzar la app
@@ -102,7 +102,7 @@ rag_cv_chatbot/
 
 ## 🧾 Licencia
 
-MIT. Podés reutilizar y modificar libremente citando este repo en tu TP.
+MIT. 
 
 
 ---
@@ -144,14 +144,6 @@ python ingest_agents.py
 streamlit run app_agents.py
 ```
 
-> **Nota de evaluación:** El video debe mostrar: consulta por defecto (sin nombre → Alumno), consulta a otra persona nombrada, y consulta a **2 personas a la vez** con respuestas en secciones y citas por persona.
+> **Nota de evaluación:** El video muestra: consulta por defecto (sin nombre → Alumno), consulta a otra persona nombrada, y consulta a **2 personas a la vez** con respuestas en secciones y citas por persona.
 
-### 🎥 Guion sugerido para el video (≤ 2 min)
-
-1. **Intro (10s):** objetivo del TP y que hay *1 agente por persona*.
-2. **Arquitectura (20s):** `data/<Persona> → ingest_agents.py → storage/<Persona> (FAISS) → app_agents.py`.
-3. **Demo (60s):**
-   - Pregunta sin nombre (“¿Cuál es tu formación?”) → responde Alumno.
-   - Pregunta “¿Qué experiencia tienen *Alumno* y *Persona2* en Python?” → muestra secciones por persona + citas.
-4. **Cierre (20s):** cómo agregar una tercera persona y repetir los pasos.
 
