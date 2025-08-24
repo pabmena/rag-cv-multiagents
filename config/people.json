@@ -1,32 +1,8 @@
 {
   "people": [
-    {
-      "name": "Alumno",
-      "aliases": [
-        "alumno",
-        "pablo",
-        "pmenardi",
-        "menardi"
-      ]
-    },
-    {
-      "name": "Persona2",
-      "aliases": [
-        "persona2",
-        "ana",
-        "ana pérez",
-        "aperez"
-      ]
-    },
-    {
-      "name": "Persona3",
-      "aliases": [
-        "persona3",
-        "juan",
-        "juan gomez",
-        "jgomez"
-      ]
-    }
+    {"name": "Pablo", "aliases": ["pablo","pmenardi","menardi","alumno"]},
+    {"name": "Ana",   "aliases": ["ana","ana perez","aperez"]},
+    {"name": "Juan",  "aliases": ["juan","jgomez"]}
   ],
-  "default_student": "Alumno"
+  "default_student": "Pablo"
 }

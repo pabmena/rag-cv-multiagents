@@ -6,3 +6,4 @@ python-dotenv==1.0.1
 sentence-transformers==3.0.1
 streamlit==1.38.0
 tiktoken==0.7.0
+anthropic

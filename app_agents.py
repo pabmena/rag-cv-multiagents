@@ -86,4 +86,4 @@ if query:
 _No se pudo responder para **{person}**: {e}_""")
     combined = "\n\n".join(parts)
     st.session_state["history"].append({"role":"assistant", "content": combined, "bundle": bundle})
-    st.experimental_rerun()
+    st.rerun()

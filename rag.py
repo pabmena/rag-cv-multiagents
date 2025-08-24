@@ -53,33 +53,51 @@ def retrieve(query: str) -> List[Dict[str, Any]]:
 # Generación
 # -----------------------
 def generate_answer(prompt: str) -> str:
-    # Opción A: Ollama local
+    """
+    Proveedor por orden de prioridad:
+    1) OLLAMA_MODEL
+    2) OPENAI_API_KEY
+    3) ANTHROPIC_API_KEY (Claude)
+    """
     ollama_model = os.getenv("OLLAMA_MODEL")
-    if ollama_model:
-        try:
-            import ollama
-            # Mantenerlo simple; se puede ajustar temperature, etc.
-            resp = ollama.chat(model=ollama_model, messages=[{"role":"user","content":prompt}])
-            return resp["message"]["content"]
-        except Exception as e:
-            return f"[ERROR OLLAMA] {e}"
+    openai_key = os.getenv("OPENAI_API_KEY")
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 
-    # Opción B: OpenAI
-    from openai import OpenAI
-    client = OpenAI()
-    model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-    try:
+    # ---- Ollama (local) ----
+    if ollama_model:
+        import ollama
+        res = ollama.chat(model=ollama_model, messages=[{"role": "user", "content": prompt}])
+        return res["message"]["content"].strip()
+
+    # ---- OpenAI ----
+    if openai_key:
+        from openai import OpenAI
+        client = OpenAI(api_key=openai_key)
+        model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         resp = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role":"system","content":"Sos un asistente conciso y preciso. Responde en español y cita las fuentes provistas cuando corresponda."},
-                {"role":"user","content": prompt},
-            ],
-            temperature=0.3,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
         )
-        return resp.choices[0].message.content
-    except Exception as e:
-        return f"[ERROR OPENAI] {e}"
+        return resp.choices[0].message.content.strip()
+
+    # ---- Anthropic (Claude) ----
+    if anthropic_key:
+        import anthropic
+        client = anthropic.Anthropic(api_key=anthropic_key)
+        model = os.getenv("ANTHROPIC_MODEL", "claude-3-haiku-20240307")
+        msg = client.messages.create(
+            model=model,
+            max_tokens=800,
+            temperature=0.2,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        # Unir bloques de texto
+        return "".join([blk.text for blk in msg.content if getattr(blk, "type", "") == "text"]).strip()
+
+    raise RuntimeError(
+        "No hay proveedor configurado. Definí OLLAMA_MODEL, o OPENAI_API_KEY, o ANTHROPIC_API_KEY en .env"
+    )
 
 def build_prompt(query: str, contexts: List[Dict[str, Any]]) -> str:
     context_block = "\n\n".join(
