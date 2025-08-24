@@ -1,0 +1,32 @@
+{
+  "people": [
+    {
+      "name": "Alumno",
+      "aliases": [
+        "alumno",
+        "pablo",
+        "pmenardi",
+        "menardi"
+      ]
+    },
+    {
+      "name": "Persona2",
+      "aliases": [
+        "persona2",
+        "ana",
+        "ana pérez",
+        "aperez"
+      ]
+    },
+    {
+      "name": "Persona3",
+      "aliases": [
+        "persona3",
+        "juan",
+        "juan gomez",
+        "jgomez"
+      ]
+    }
+  ],
+  "default_student": "Alumno"
+}
